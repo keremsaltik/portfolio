@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    /* GÜNDÜZ MODU (Açık Tema) */
+    .bg { fill: #ffffff; stroke: #d4d4d8; }
+    .txt { fill: #09090b; }
+
+    /* GECE MODU (Koyu Tema) */
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #09090b; stroke: #27272a; }
+      .txt { fill: #fafafa; }
+    }
+  </style>
+
+  <!-- macOS Squircle Arka Plan -->
+  <rect class="bg" width="31" height="31" x="0.5" y="0.5" rx="8" stroke-width="1"/>
+
+  <!-- KS Monogram Tipografisi -->
+  <text 
+    class="txt"
+    x="50%" 
+    y="54%" 
+    text-anchor="middle" 
+    dominant-baseline="middle" 
+    font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Geist', sans-serif" 
+    font-weight="700" 
+    font-size="13" 
+    letter-spacing="-0.5"
+  >KS</text>
+</svg>

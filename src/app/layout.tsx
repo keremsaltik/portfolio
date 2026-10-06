@@ -36,6 +36,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: description,
     keywords: keywords,
+    icons: {
+      icon: "/icon.svg",
+      shortcut: "/icon.svg",
+      apple: "/icon.svg",
+    },
     alternates: {
       canonical: "https://keremsaltik.dev",
       languages: {
