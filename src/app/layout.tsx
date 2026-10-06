@@ -5,6 +5,11 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { StructuredData } from "@/components/structured-data";
 import { supabase } from "@/lib/supabase";
 
+
+// Sayfayı dondurma, her istekte en güncel veriyi canlı çek
+export const revalidate = 0;
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

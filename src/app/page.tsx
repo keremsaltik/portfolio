@@ -31,11 +31,18 @@ export default function Home() {
   }, []);
 
   // 2. VERİLERİ DİLE GÖRE ÇEK
-  useEffect(() => {
+   useEffect(() => {
     async function loadData() {
       setLoading(true);
       const res = await getPortfolioData(lang);
       setData(res);
+      
+      // Admin'de belirlediğin SEO başlığını tarayıcı sekmesine bas (TypeScript güvenli)
+      const pageTitle = (res?.profile as any)?.metaTitle || (res?.profile as any)?.title || "Kerem SALTIK";
+      if (typeof document !== "undefined") {
+        document.title = pageTitle;
+      }
+
       setLoading(false);
     }
     loadData();

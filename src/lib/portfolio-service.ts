@@ -35,8 +35,8 @@ export async function getPortfolioData(lang: Language = "tr") {
           statusText: lang === "tr" 
             ? (profileData.status_tr || "Yeni Projelere & Fırsatlara Açık") 
             : (profileData.status_en || "Open to New Roles & Projects"),
-          metaTitle: profileData.meta_title,
-          metaDescription: profileData.meta_description,
+          metaTitle: profileData.meta_title || "Kerem SALTIK | Software Engineer",
+          metaDescription: profileData.meta_description || DATA.about,
           keywords: profileData.keywords || [],
         }
       : {
@@ -49,6 +49,9 @@ export async function getPortfolioData(lang: Language = "tr") {
           cv_url: "#",
           isAvailable: true,
           statusText: lang === "tr" ? "Yeni Projelere & Fırsatlara Açık" : "Open to New Roles & Projects",
+          metaTitle: "Kerem SALTIK | Software Engineer",
+          metaDescription: DATA.about,
+          keywords: [],
         };
 
     const projects = (projectsData || []).map((p) => ({
@@ -99,8 +102,14 @@ export async function getPortfolioData(lang: Language = "tr") {
         title: DATA.title, 
         about: DATA.about, 
         email: DATA.contact.email,
+        github: DATA.contact.social.github.url,
+        linkedin: DATA.contact.social.linkedin.url,
+        cv_url: "#",
         isAvailable: true,
-        statusText: lang === "tr" ? "Yeni Projelere & Fırsatlara Açık" : "Open to New Roles & Projects"
+        statusText: lang === "tr" ? "Yeni Projelere & Fırsatlara Açık" : "Open to New Roles & Projects",
+        metaTitle: "Kerem SALTIK | Software Engineer",
+        metaDescription: DATA.about,
+        keywords: [],
       },
       projects: [],
       publications: [],
