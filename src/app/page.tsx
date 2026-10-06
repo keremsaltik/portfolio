@@ -68,7 +68,12 @@ export default function Home() {
         <Experience items={data?.experience || []} lang={lang} />
         <Publications publications={data?.publications || []} lang={lang} />
         <Skills skills={data?.skills || []} lang={lang} />
-        <Footer email={data?.profile?.email} name={data?.profile?.name} lang={lang} />
+        <Footer 
+          email={data?.profile?.email} 
+          name={data?.profile?.name} 
+          lang={lang} 
+          isAvailable={data?.profile?.isAvailable} 
+        />
       </div>
 
       <FloatingDock 
