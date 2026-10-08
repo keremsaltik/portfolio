@@ -18,7 +18,6 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  // Görselleri diziye çevirme yardımcısı
   const getImages = (url: string | undefined): string[] => {
     if (!url) return [];
     return url.split(",").map((u) => u.trim()).filter(Boolean);
@@ -26,7 +25,7 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
 
   const openProjectModal = (project: any) => {
     setSelectedProject(project);
-    setActiveImageIndex(0); // Her açılışta 1. fotoğraftan başla
+    setActiveImageIndex(0);
   };
 
   return (
@@ -107,15 +106,15 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
         ))}
       </div>
 
-      {/* İNTERAKTİF APPLE GALERİLİ DETAY MODALI */}
+      {/* YATAY TAŞMASI (HORIZONTAL SCROLL) ENGELLENMİŞ MODAL */}
       <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
         {selectedProject && (() => {
           const images = getImages(selectedProject.imageUrl);
 
           return (
-            <DialogContent className="max-w-3xl w-[92vw] sm:w-full bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 p-6 sm:p-10 max-h-[88vh] overflow-y-auto rounded-3xl shadow-2xl space-y-6">
+            <DialogContent className="max-w-3xl w-[92vw] sm:w-full bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 p-6 sm:p-10 max-h-[88vh] overflow-y-auto overflow-x-hidden rounded-3xl shadow-2xl space-y-6">
               
-              <DialogHeader className="text-left space-y-2 border-b border-zinc-100 dark:border-zinc-800 pb-5">
+              <DialogHeader className="text-left space-y-2 border-b border-zinc-100 dark:border-zinc-800 pb-5 max-w-full">
                 <div className="flex items-center gap-2">
                   <Badge variant="outline" className="border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 text-xs">
                     {selectedProject.subtitle}
@@ -134,16 +133,14 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
                 </DialogDescription>
               </DialogHeader>
 
-              {/* İNTERAKTİF FOTOĞRAF GALERİSİ (APPLE CAROUSEL) */}
-              {/* İNTERAKTİF, KORUMALI VE DOKUNMATİK FOTOĞRAF GALERİSİ */}
+              {/* FOTOĞRAF GALERİSİ (YATAY TAŞMAZ) */}
               {images.length > 0 ? (
-                <div className="space-y-3 select-none">
-                  {/* Ana Büyük Görsel Alanı (Korumalı & Parmakla Kaydırılabilir) */}
+                <div className="space-y-3 max-w-full min-w-0 select-none">
+                  {/* Büyük Görsel */}
                   <div 
-                    className="relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-950 flex items-center justify-center min-h-[220px] sm:min-h-[340px] shadow-lg group select-none touch-pan-x"
-                    onContextMenu={(e) => e.preventDefault()} // Sağ tıkı engeller
+                    className="relative w-full max-w-full min-w-0 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-950 flex items-center justify-center min-h-[220px] sm:min-h-[340px] shadow-lg group select-none"
+                    onContextMenu={(e) => e.preventDefault()}
                   >
-                    {/* Şeffaf Güvenlik Katmanı: Tıklamalara izin verir ama sağ tıkla resmi kaydettirmez */}
                     <div 
                       className="absolute inset-0 z-10 select-none"
                       onContextMenu={(e) => e.preventDefault()}
@@ -152,11 +149,11 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
                     <img
                       src={images[activeImageIndex]}
                       alt={`${selectedProject.title} Ekran ${activeImageIndex + 1}`}
-                      draggable="false" // Sürükleyip masaüstüne bırakmayı engeller
-                      className="w-full h-auto max-h-[380px] object-contain transition-all duration-300 pointer-events-none select-none [-webkit-touch-callout:none]" // Mobilde basılı tutunca kaydet menüsünü engeller
+                      draggable="false"
+                      className="max-w-full max-h-[360px] w-auto h-auto object-contain mx-auto transition-all duration-300 pointer-events-none select-none [-webkit-touch-callout:none]"
                     />
 
-                    {/* Sağ / Sol Okları */}
+                    {/* Gezinme Okları */}
                     {images.length > 1 && (
                       <>
                         <button
@@ -183,9 +180,9 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
                     )}
                   </div>
 
-                  {/* Alttaki Küçük Önizleme Şeridi */}
+                  {/* Önizleme Şeridi (Sadece Kendi İçinde Kayar, Pencereyi Taşmaz) */}
                   {images.length > 1 && (
-                    <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-thin select-none" onContextMenu={(e) => e.preventDefault()}>
+                    <div className="flex gap-2.5 overflow-x-auto overflow-y-hidden max-w-full min-w-0 pb-1 scrollbar-thin select-none" onContextMenu={(e) => e.preventDefault()}>
                       {images.map((img, idx) => (
                         <button
                           key={idx}
@@ -204,7 +201,6 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
                   )}
                 </div>
               ) : (
-                /* Görsel Yoksa Şık Placeholder */
                 <div className="w-full h-48 sm:h-56 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800/60 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden group">
                   <div className="p-3 rounded-2xl bg-white/70 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 shadow-sm mb-2.5">
                     <ImageIcon className="w-7 h-7 text-zinc-500" />
@@ -212,14 +208,11 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
                   <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                     {selectedProject.isLiveAppStore ? "iOS Native UI & Ekran Görüntüleri" : "Web Dashboard & Mimari Akış"}
                   </p>
-                  <span className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 max-w-sm">
-                    (Admin panelinden fotoğraf yüklediğinde burada interaktif galeri belirecektir)
-                  </span>
                 </div>
               )}
 
               {/* Teknik Mimari & Güvenlik Kartları */}
-              <div className="space-y-3 pt-2">
+              <div className="space-y-3 pt-2 max-w-full">
                 <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1.5">
                   <Cpu className="w-4 h-4 text-blue-500" />
                   {lang === "tr" ? "Teknik Mimari & Güvenlik Kararları" : "Architecture & Security Decisions"}
@@ -232,7 +225,7 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
                       {lang === "tr" ? "Veri Güvenliği" : "Data Security"}
                     </span>
                     <p className="text-zinc-600 dark:text-zinc-300">
-                      {selectedProject.security || (lang === "tr" ? "CryptoKit (AES-256) şifreleme ve Keychain ile biyometrik (FaceID) koruma." : "CryptoKit (AES-256) encryption and Keychain biometric protection.")}
+                      {selectedProject.security || (lang === "tr" ? "CryptoKit (AES-256) şifreleme ve Keychain ile biyometrik (FaceID) koruma." : "CryptoKit (AES-256) on-device encryption and Keychain biometric protection.")}
                     </p>
                   </div>
 
@@ -249,7 +242,7 @@ export function Projects({ projects, lang }: { projects: any[]; lang: "tr" | "en
               </div>
 
               {/* Teknolojiler */}
-              <div className="space-y-2 pt-1">
+              <div className="space-y-2 pt-1 max-w-full">
                 <h4 className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-bold">
                   {lang === "tr" ? "Kullanılan Teknolojiler" : "Tech Stack"}
                 </h4>

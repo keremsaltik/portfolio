@@ -23,8 +23,8 @@ export async function getPortfolioData(lang: Language = "tr") {
     const profile = profileData
       ? {
           name: profileData.name,
-          title: lang === "tr" ? profileData.title_tr : profileData.title_en,
-          about: lang === "tr" ? profileData.about_tr : profileData.about_en,
+          title: lang === "tr" ? profileData.title_tr : (profileData.title_en || profileData.title_tr),
+          about: lang === "tr" ? profileData.about_tr : (profileData.about_en || profileData.about_tr),
           email: profileData.email,
           github: profileData.github_url,
           linkedin: profileData.linkedin_url,
@@ -57,14 +57,14 @@ export async function getPortfolioData(lang: Language = "tr") {
     const projects = (projectsData || []).map((p) => ({
       id: p.id,
       title: p.title,
-      subtitle: lang === "tr" ? p.subtitle_tr : p.subtitle_en,
-      description: lang === "tr" ? p.description_tr : p.description_en,
+      subtitle: lang === "tr" ? p.subtitle_tr : (p.subtitle_en || p.subtitle_tr),
+      description: lang === "tr" ? p.description_tr : (p.description_en || p.description_tr),
       technologies: p.technologies || [],
       link: p.link,
       isLiveAppStore: p.is_live_app_store,
       imageUrl: p.image_url,
-      architecture: lang === "tr" ? p.architecture_tr : p.architecture_en,
-      security: lang === "tr" ? p.security_tr : p.security_en,
+      architecture: lang === "tr" ? p.architecture_tr : (p.architecture_en || p.architecture_tr),
+      security: lang === "tr" ? p.security_tr : (p.security_en || p.security_tr),
     }));
 
     const publications = (publicationsData || []).map((pub) => ({
@@ -72,23 +72,24 @@ export async function getPortfolioData(lang: Language = "tr") {
       title: pub.title,
       journal: pub.journal,
       year: pub.year,
-      type: lang === "tr" ? pub.type_tr : pub.type_en,
-      description: lang === "tr" ? pub.description_tr : pub.description_en,
+      type: lang === "tr" ? pub.type_tr : (pub.type_en || pub.type_tr),
+      description: lang === "tr" ? pub.description_tr : (pub.description_en || pub.description_tr),
       link: pub.link,
     }));
 
     const skills = (skillsData || []).map((s) => ({
       id: s.id,
-      category: lang === "tr" ? s.category_tr : s.category_en,
+      category: lang === "tr" ? s.category_tr : (s.category_en || s.category_tr),
       items: s.items || [],
+      icon: s.icon || "code",
     }));
 
     const experience = (experienceData || []).map((e) => ({
       id: e.id,
       title: e.title,
-      subtitle: lang === "tr" ? e.subtitle_tr : e.subtitle_en,
+      subtitle: lang === "tr" ? e.subtitle_tr : (e.subtitle_en || e.subtitle_tr),
       period: e.period,
-      description: lang === "tr" ? e.description_tr : e.description_en,
+      description: lang === "tr" ? e.description_tr : (e.description_en || e.description_tr),
       technologies: e.technologies || [],
       type: e.type,
     }));
